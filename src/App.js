@@ -1,25 +1,74 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react'
 import './App.css';
+import PdfTemplate from './PDF/Template'
 
 function App() {
+
+  const [InvoiceNumber, setInvoiceNumber] = useState('');
+
+  const [CustomerName, setCustomerName] = useState('');
+
+  const [CustomerAddress, setCustomerAddress] = useState('');
+
+  const [Discount, setDiscount] = useState('');
+
+  const [Dates, setDates] = useState('');
+
+  const [view, setView] = useState(true);
+
+  let newDate = new Date()
+  let date = newDate.getDate();
+
+  const numbers = [
+    {
+      product: 'dsdsd',
+      amount: '23782'
+    },
+    {
+      product: 'dsd',
+      amount: '993'
+    },
+    {
+      product: 'dssdffedfdsd',
+      amount: '623'
+    }
+  ]
+
+  useEffect(() => {
+
+    const current = new Date();
+    const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+    console.log(`Date is ${date}`);
+    setDates(date)
+
+},[])
+
+  const Create = () => {
+    setView(false)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {
+        view ?
+          <div className='containers' >
+            <div className="form">
+              <div className="inputs">
+                <input type="text" placeholder='Invoice Number' value={InvoiceNumber} onChange={(e) => setInvoiceNumber(e.target.value)} /><br></br>
+                <input type="text" placeholder='Costomer Name' value={CustomerName} onChange={(e) => setCustomerName(e.target.value)} /><br></br>
+                <input type="text" placeholder='Costomer Adress' value={CustomerAddress} onChange={(e) => setCustomerAddress(e.target.value)} />
+              </div>
+              <div className="buttons">
+                <button onClick={Create} >Create ➡ </button>
+              </div>
+            </div>
+          </div>
+          :
+          <PdfTemplate InvoiceNumber={InvoiceNumber} date={Dates} CustomerName={CustomerName} CustomerAddress={CustomerAddress}  />
+      }
+    </>
   );
 }
+
 
 export default App;
